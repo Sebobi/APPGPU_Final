@@ -62,6 +62,6 @@ void particle_deallocate(struct particles*);
 int mover_PC(struct particles*, struct EMfield*, struct grid*, struct parameters*);
 
 /** Interpolation Particle --> Grid: This is for species */
-void interpP2G(struct particles*, struct interpDensSpecies*, struct grid*);
+void interpP2G(struct particles*, struct interpDensSpecies*, struct grid*, long size);
 
 #endif

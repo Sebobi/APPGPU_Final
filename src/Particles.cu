@@ -232,12 +232,23 @@ int mover_PC(struct particles* part, struct EMfield* field, struct grid* grd, st
     return(0); // exit succcesfully
 } // end of the mover
 
+__global__ void INTERPP2G_GPU(struct particles* part, struct interpDensSpecies* ids, struct grid* grd, long particles){
+   int i = blockIdx.x*blockDim.x + threadIdx.x;
+   if(i >= particles){
+	return;
+   }
+
+}
+
 
 
 /** Interpolation Particle --> Grid: This is for species */
-void interpP2G(struct particles* part, struct interpDensSpecies* ids, struct grid* grd)
+void interpP2G(struct particles* part, struct interpDensSpecies* ids, struct grid* grd, long size)
 {
-    
+    particles* gpu_particles;    
+    interpDensSpecies* gpu_interp;
+    cudaMalloc((void**)&gpu_particles,size * sizeof(particles));
+
     // arrays needed for interpolation
     FPpart weight[2][2][2];
     FPpart temp[2][2][2];
