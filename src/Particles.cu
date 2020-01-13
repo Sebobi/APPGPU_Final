@@ -255,12 +255,12 @@ __global__ void INTERPP2G_GPU(struct particles* part, struct interpDensSpecies* 
     iz = 2 + int (floor((part->z[i] - grd->zStart) * grd->invdz));
         
     // distances from node
-    xi[0]   = part->x[i] - grd->XN[ix - 1][iy][iz];
-    eta[0]  = part->y[i] - grd->YN[ix][iy - 1][iz];
-    zeta[0] = part->z[i] - grd->ZN[ix][iy][iz - 1];
-    xi[1]   = grd->XN[ix][iy][iz] - part->x[i];
-    eta[1]  = grd->YN[ix][iy][iz] - part->y[i];
-    zeta[1] = grd->ZN[ix][iy][iz] - part->z[i];
+    xi[0]   = part->x[part_index] - grd->XN_flat[get_idx(ix-1, iy, iz, grd->nyn, grd->nzn)];
+    eta[0]  = part->y[part_index] - grd->YN_flat[get_idx(ix, iy-1, iz, grd->nyn, grd->nzn)];
+    zeta[0] = part->z[part_index] - grd->ZN_flat[get_idx(ix, iy, iz-1, grd->nyn, grd->nzn)];
+    xi[1]   = grd->XN_flat[get_idx(ix, iy, iz, grd->nyn, grd->nzn)] - part->x[part_index];
+    eta[1]  = grd->YN_flat[get_idx(ix, iy, iz, grd->nyn, grd->nzn)] - part->y[part_index];
+    zeta[1] = grd->ZN_flat[get_idx(ix, iy, iz, grd->nyn, grd->nzn)] - part->z[part_index];
         
     // calculate the weights for different nodes
     for (int ii = 0; ii < 2; ii++)
